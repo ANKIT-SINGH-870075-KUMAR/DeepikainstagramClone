@@ -11,14 +11,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../firebase';
-import { Logout } from '@mui/icons-material';
+import { logoutUser } from '../features/userSlice';
+import { signOut } from 'firebase/auth';
 
 
 function Sidenav() {
   const user = useSelector(state => state.data.user.user);
   const dispatch = useDispatch();
   const handleogout = () => {
-     
+       dispatch(logoutUser())     
+       signOut(auth);
   }
   return (
     <div className='sidenav'>
@@ -53,9 +55,9 @@ function Sidenav() {
           <span>Create</span>
         </button>
         <button className="sidenav_button">
-          <Avatar>D</Avatar>
+          <Avatar>{user.username ? user.username.charAt(0).toUpperCase() : "A"}</Avatar>
           <span>{user.username}
-          <button className='logout__button'>Log Out</button>
+          <button onClick={handleogout} className='logout__button'>Log Out</button>
           </span>
         </button>
       </div>
